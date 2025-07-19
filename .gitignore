@@ -72,3 +72,7 @@ coverage/
 
 # Misc
 *.pem
+
+/src/generated/prisma
+
+/react-bits

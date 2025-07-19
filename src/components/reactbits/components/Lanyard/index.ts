@@ -1,0 +1,1 @@
+export { default as Lanyard, default } from './Lanyard';

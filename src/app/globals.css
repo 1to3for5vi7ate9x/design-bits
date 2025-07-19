@@ -1,8 +1,24 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* ReactBits Inspired Color Palette */
+  --background: #060010;
+  --foreground: rgba(255, 255, 255, 0.87);
+  --surface: #111;
+  --surface-hover: #1a1a1a;
+  --border: #392e4e;
+  --border-light: #4a3d5e;
+  --primary: #5227FF;
+  --primary-hover: #6b42ff;
+  --secondary: #00d8ff;
+  --accent: #ff0080;
+  --success: #00ff88;
+  --warning: #ffaa00;
+  --error: #ff0040;
+  --text-primary: rgba(255, 255, 255, 0.87);
+  --text-secondary: rgba(255, 255, 255, 0.6);
+  --text-muted: rgba(255, 255, 255, 0.38);
+  --muted: #999;
 }
 
 @theme inline {
@@ -12,10 +28,24 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
+@media (prefers-color-scheme: light) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #fafafa;
+    --foreground: #171717;
+    --surface: #ffffff;
+    --surface-hover: #f5f5f5;
+    --border: #e5e5e5;
+    --border-light: #f0f0f0;
+    --primary: #6366f1;
+    --primary-hover: #4f46e5;
+    --secondary: #8b5cf6;
+    --accent: #ec4899;
+    --success: #10b981;
+    --warning: #f59e0b;
+    --error: #ef4444;
+    --text-primary: #171717;
+    --text-secondary: #525252;
+    --text-muted: #737373;
   }
 }
 
@@ -23,4 +53,95 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* ReactBits Animations */
+@keyframes rollIn {
+  0% {
+    transform: translateY(100%) rotateX(-90deg);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0) rotateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes spark {
+  0% {
+    opacity: 1;
+    transform: rotate(var(--rotation, 0deg)) translateX(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(var(--rotation, 0deg)) translateX(20px) scale(0);
+  }
+}
+
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(var(--bounce-height, -20px));
+  }
+}
+
+@keyframes glitch1 {
+  0%, 100% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  40% {
+    transform: translate(-2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(2px, -2px);
+  }
+}
+
+@keyframes glitch2 {
+  0%, 100% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(2px, -2px);
+  }
+  40% {
+    transform: translate(2px, 2px);
+  }
+  60% {
+    transform: translate(-2px, -2px);
+  }
+  80% {
+    transform: translate(-2px, 2px);
+  }
+}
+
+@keyframes starBorder {
+  0% {
+    top: -20px;
+    left: -20px;
+  }
+  25% {
+    top: -20px;
+    left: calc(100% + 20px);
+  }
+  50% {
+    top: calc(100% + 20px);
+    left: calc(100% + 20px);
+  }
+  75% {
+    top: calc(100% + 20px);
+    left: -20px;
+  }
+  100% {
+    top: -20px;
+    left: -20px;
+  }
 }
