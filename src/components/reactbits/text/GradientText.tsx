@@ -8,13 +8,13 @@ interface GradientTextProps {
     showBorder?: boolean;
 }
 
-const GradientText: React.FC<GradientTextProps> = ({
+export default function GradientText({
     children,
     className = "",
     colors = ["#ffaa40", "#9c40ff", "#ffaa40"],
     animationSpeed = 8,
     showBorder = false,
-}: GradientTextProps) => {
+}: GradientTextProps) {
     const gradientStyle = {
         backgroundImage: `linear-gradient(to right, ${colors.join(", ")})`,
         animationDuration: `${animationSpeed}s`,
@@ -57,10 +57,7 @@ const GradientText: React.FC<GradientTextProps> = ({
             </div>
         </div>
     );
-};
-
-export default GradientText;
-export { GradientText };
+}
 
 // tailwind.config.js
 // module.exports = {

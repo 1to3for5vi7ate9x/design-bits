@@ -14,7 +14,7 @@ interface CountUpProps {
   onEnd?: () => void;
 }
 
-const CountUp: React.FC<CountUpProps> = ({
+export default function CountUp({
   to,
   from = 0,
   direction = "up",
@@ -25,7 +25,7 @@ const CountUp: React.FC<CountUpProps> = ({
   separator = "",
   onStart,
   onEnd,
-}: CountUpProps) => {
+}: CountUpProps) {
   const ref = useRef<HTMLSpanElement>(null);
   const motionValue = useMotionValue(direction === "down" ? to : from);
 
@@ -121,7 +121,4 @@ const CountUp: React.FC<CountUpProps> = ({
   }, [springValue, separator, maxDecimals]);
 
   return <span className={className} ref={ref} />;
-};
-
-export default CountUp;
-export { CountUp };
+}

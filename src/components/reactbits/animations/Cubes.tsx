@@ -343,4 +343,3 @@ const Cubes: React.FC<CubesProps> = ({
 };
 
 export default Cubes;
-export { Cubes };

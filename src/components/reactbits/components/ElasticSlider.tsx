@@ -223,4 +223,3 @@ function decay(value: number, max: number): number {
 }
 
 export default ElasticSlider;
-export { ElasticSlider };

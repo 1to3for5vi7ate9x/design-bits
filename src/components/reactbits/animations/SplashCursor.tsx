@@ -1515,5 +1515,3 @@ export default function SplashCursor({
     </div>
   );
 }
-
-export { SplashCursor };

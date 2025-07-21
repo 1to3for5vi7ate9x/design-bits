@@ -109,4 +109,3 @@ const GridMotion: FC<GridMotionProps> = ({
 };
 
 export default GridMotion;
-export { GridMotion };

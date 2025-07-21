@@ -264,4 +264,3 @@ const ShapeBlur: FC<ShapeBlurProps> = ({
 };
 
 export default ShapeBlur;
-export { ShapeBlur };

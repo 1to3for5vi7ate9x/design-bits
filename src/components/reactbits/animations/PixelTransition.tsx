@@ -156,4 +156,3 @@ const PixelTransition: React.FC<PixelTransitionProps> = ({
 };
 
 export default PixelTransition;
-export { PixelTransition };

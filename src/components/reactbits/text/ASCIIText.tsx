@@ -667,5 +667,3 @@ export default function ASCIIText({
     </div>
   );
 }
-
-export { ASCIIText };

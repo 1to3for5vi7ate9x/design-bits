@@ -182,4 +182,3 @@ const DecayCard: React.FC<DecayCardProps> = ({
 };
 
 export default DecayCard;
-export { DecayCard };

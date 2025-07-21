@@ -1,5 +1,6 @@
 'use client';
 
+import React from 'react';
 import dynamic from 'next/dynamic';
 import { BuilderComponent } from '@/types/builder';
 import { cn } from '@/lib/utils/cn';
@@ -29,6 +30,7 @@ const componentMap = {
   'text-cursor': dynamic(() => import('@/components/reactbits/text/TextCursor')),
   'text-pressure': dynamic(() => import('@/components/reactbits/text/TextPressure')),
   'text-trail': dynamic(() => import('@/components/reactbits/text/TextTrail')),
+  'text-type': dynamic(() => import('@/components/reactbits/text/TextType')),
   'true-focus': dynamic(() => import('@/components/reactbits/text/TrueFocus')),
   'variable-proximity': dynamic(() => import('@/components/reactbits/text/VariableProximity')),
   
@@ -90,7 +92,6 @@ const componentMap = {
   // ===== BACKGROUNDS =====
   'aurora': dynamic(() => import('@/components/reactbits/backgrounds/Aurora')),
   'waves': dynamic(() => import('@/components/reactbits/backgrounds/Waves')),
-  'grid': dynamic(() => import('@/components/reactbits/backgrounds/Grid')),
   'particles': dynamic(() => import('@/components/reactbits/backgrounds/Particles')),
   'dot-grid': dynamic(() => import('@/components/reactbits/backgrounds/DotGrid')),
   'balatro': dynamic(() => import('@/components/reactbits/backgrounds/Balatro')),
@@ -110,6 +111,7 @@ const componentMap = {
   'silk': dynamic(() => import('@/components/reactbits/backgrounds/Silk')),
   'squares': dynamic(() => import('@/components/reactbits/backgrounds/Squares')),
   'threads': dynamic(() => import('@/components/reactbits/backgrounds/Threads')),
+  'galaxy': dynamic(() => import('@/components/reactbits/backgrounds/Galaxy')),
 };
 
 interface ComponentRendererProps {
@@ -117,14 +119,15 @@ interface ComponentRendererProps {
   isPreview?: boolean;
 }
 
-export function ComponentRenderer({ component, isPreview = false }: ComponentRendererProps) {
+export function ComponentRenderer({ component }: ComponentRendererProps) {
   const Component = componentMap[component.type as keyof typeof componentMap];
   
   // Get canvas context for components that need containerRef
-  let canvasContext;
+  let canvasContext = null;
   try {
+    // eslint-disable-next-line react-hooks/rules-of-hooks
     canvasContext = useCanvasContext();
-  } catch (e) {
+  } catch {
     // In preview mode or outside canvas, containerRef won't be available
     canvasContext = null;
   }
@@ -134,7 +137,7 @@ export function ComponentRenderer({ component, isPreview = false }: ComponentRen
       <div className="w-full h-full bg-error/10 border-2 border-error/30 rounded-lg flex items-center justify-center text-error p-4">
         <div className="text-center">
           <p className="font-semibold">Component Not Found</p>
-          <p className="text-sm">"{component.type}"</p>
+          <p className="text-sm">&quot;{component.type}&quot;</p>
         </div>
       </div>
     );
@@ -142,10 +145,10 @@ export function ComponentRenderer({ component, isPreview = false }: ComponentRen
 
   // Check if this is a background component
   const backgroundTypes = [
-    'aurora', 'waves', 'grid', 'particles', 'dot-grid', 'balatro', 'ballpit',
+    'aurora', 'waves', 'particles', 'dot-grid', 'balatro', 'ballpit',
     'beams', 'dark-veil', 'dither', 'grid-distortion', 'grid-motion', 'hyperspeed',
     'iridescence', 'letter-glitch', 'lightning', 'liquid-chrome', 'orb',
-    'ripple-grid', 'silk', 'squares', 'threads'
+    'ripple-grid', 'silk', 'squares', 'threads', 'galaxy'
   ];
   const isBackground = backgroundTypes.includes(component.type);
   
@@ -168,6 +171,34 @@ export function ComponentRenderer({ component, isPreview = false }: ComponentRen
   // Add containerRef for components that need it
   if (component.type === 'variable-proximity' && canvasContext) {
     componentProps.containerRef = canvasContext.containerRef;
+  }
+
+  // Special handling for Three.js/WebGL components that use Canvas
+  const isThreeComponent = ['fluid-glass', 'model-viewer'].includes(component.type);
+  
+  // Special handling for OGL-based components
+  const isOGLComponent = [
+    'aurora', 'balatro', 'dark-veil', 'galaxy', 'iridescence', 
+    'liquid-chrome', 'orb', 'particles', 'ripple-grid', 'threads',
+    'circular-gallery', 'flying-posters', 'meta-balls'
+  ].includes(component.type);
+  
+  if (isThreeComponent || isOGLComponent) {
+    return (
+      <div className={cn(
+        'w-full h-full',
+        isBackground && 'relative overflow-hidden'
+      )} suppressHydrationWarning>
+        <Component 
+          key={`${component.id}-${JSON.stringify(component.props)}`}
+          {...componentProps}
+          className={cn(
+            component.props.className,
+            isBackground && 'absolute inset-0'
+          )}
+        />
+      </div>
+    );
   }
 
   return (

@@ -855,4 +855,3 @@ const Ballpit: React.FC<BallpitProps> = ({
 };
 
 export default Ballpit;
-export { Ballpit };

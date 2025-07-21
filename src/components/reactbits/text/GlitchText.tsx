@@ -50,7 +50,6 @@ const GlitchText: FC<GlitchTextProps> = ({
 };
 
 export default GlitchText;
-export { GlitchText };
 
 // tailwind.config.js
 // module.exports = {

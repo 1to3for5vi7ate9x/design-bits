@@ -130,4 +130,3 @@ const CircularText: React.FC<CircularTextProps> = ({
 };
 
 export default CircularText;
-export { CircularText };

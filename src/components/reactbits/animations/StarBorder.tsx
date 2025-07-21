@@ -52,7 +52,6 @@ const StarBorder = <T extends React.ElementType = "button">({
 };
 
 export default StarBorder;
-export { StarBorder };
 
 // tailwind.config.js
 // module.exports = {

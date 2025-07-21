@@ -592,5 +592,3 @@ export default function MetallicPaint({
 
   return <canvas ref={canvasRef} className="block w-full h-full object-contain" />;
 }
-
-export { MetallicPaint, parseLogoImage };

@@ -316,5 +316,3 @@ export default function PixelCard({
     </div>
   );
 }
-
-export { PixelCard };

@@ -649,5 +649,3 @@ export default function FlyingPosters({
     </div>
   );
 }
-
-export { FlyingPosters };

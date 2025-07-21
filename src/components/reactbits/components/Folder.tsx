@@ -179,4 +179,3 @@ const Folder: React.FC<FolderProps> = ({
 };
 
 export default Folder;
-export { Folder };

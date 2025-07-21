@@ -160,7 +160,7 @@ export function ComponentWrapper({ component, onMove }: ComponentWrapperProps) {
     'aurora', 'waves', 'grid', 'particles', 'dot-grid', 'balatro', 'ballpit',
     'beams', 'dark-veil', 'dither', 'grid-distortion', 'grid-motion', 'hyperspeed',
     'iridescence', 'letter-glitch', 'lightning', 'liquid-chrome', 'orb',
-    'ripple-grid', 'silk', 'squares', 'threads'
+    'ripple-grid', 'silk', 'squares', 'threads', 'galaxy'
   ];
   const isBackground = backgroundTypes.includes(component.type);
 
@@ -173,7 +173,7 @@ export function ComponentWrapper({ component, onMove }: ComponentWrapperProps) {
         isSelected && 'ring-2 ring-primary shadow-lg z-10',
         isHovered && !isSelected && 'ring-1 ring-border/50',
         isDragging && 'opacity-90',
-        isBackground && 'overflow-hidden'
+        isBackground && 'overflow-visible'
       )}
       onClick={(e) => {
         e.stopPropagation();
@@ -185,7 +185,7 @@ export function ComponentWrapper({ component, onMove }: ComponentWrapperProps) {
     >
       {/* Component Toolbar - Always show for selected/hovered including backgrounds */}
       {(isSelected || isHovered) && (
-        <div className="absolute -top-10 left-0 flex items-center gap-1 bg-surface rounded-md shadow-lg border border-border px-2 py-1 z-[100]">
+        <div className="absolute -top-10 left-0 flex items-center gap-1 bg-surface rounded-md shadow-lg border border-border px-2 py-1 z-[1000]">
           <div 
             className="drag-handle p-1.5 text-xs text-text-muted cursor-move hover:bg-surface-hover rounded transition-colors"
             onMouseDown={(e) => {
@@ -224,37 +224,37 @@ export function ComponentWrapper({ component, onMove }: ComponentWrapperProps) {
         <>
           {/* Corner handles */}
           <div
-            className="resize-handle absolute -right-2 -top-2 w-4 h-4 bg-primary rounded-full cursor-nwse-resize border-2 border-white shadow-sm z-50 hover:scale-125 transition-transform"
+            className="resize-handle absolute -right-2 -top-2 w-4 h-4 bg-primary rounded-full cursor-nwse-resize border-2 border-background/80 shadow-sm z-50 hover:scale-125 transition-transform"
             onMouseDown={(e) => handleResize(e, 'top-right')}
           />
           <div
-            className="resize-handle absolute -left-2 -top-2 w-4 h-4 bg-primary rounded-full cursor-nesw-resize border-2 border-white shadow-sm z-50 hover:scale-125 transition-transform"
+            className="resize-handle absolute -left-2 -top-2 w-4 h-4 bg-primary rounded-full cursor-nesw-resize border-2 border-background/80 shadow-sm z-50 hover:scale-125 transition-transform"
             onMouseDown={(e) => handleResize(e, 'top-left')}
           />
           <div
-            className="resize-handle absolute -right-2 -bottom-2 w-4 h-4 bg-primary rounded-full cursor-nesw-resize border-2 border-white shadow-sm z-50 hover:scale-125 transition-transform"
+            className="resize-handle absolute -right-2 -bottom-2 w-4 h-4 bg-primary rounded-full cursor-nesw-resize border-2 border-background/80 shadow-sm z-50 hover:scale-125 transition-transform"
             onMouseDown={(e) => handleResize(e, 'bottom-right')}
           />
           <div
-            className="resize-handle absolute -left-2 -bottom-2 w-4 h-4 bg-primary rounded-full cursor-nwse-resize border-2 border-white shadow-sm z-50 hover:scale-125 transition-transform"
+            className="resize-handle absolute -left-2 -bottom-2 w-4 h-4 bg-primary rounded-full cursor-nwse-resize border-2 border-background/80 shadow-sm z-50 hover:scale-125 transition-transform"
             onMouseDown={(e) => handleResize(e, 'bottom-left')}
           />
           
           {/* Edge handles */}
           <div
-            className="resize-handle absolute -right-2 top-1/2 -translate-y-1/2 w-4 h-8 bg-primary rounded cursor-ew-resize border-2 border-white shadow-sm z-50 hover:scale-110 transition-transform"
+            className="resize-handle absolute -right-2 top-1/2 -translate-y-1/2 w-4 h-8 bg-primary rounded cursor-ew-resize border-2 border-background/80 shadow-sm z-50 hover:scale-110 transition-transform"
             onMouseDown={(e) => handleResize(e, 'right')}
           />
           <div
-            className="resize-handle absolute -left-2 top-1/2 -translate-y-1/2 w-4 h-8 bg-primary rounded cursor-ew-resize border-2 border-white shadow-sm z-50 hover:scale-110 transition-transform"
+            className="resize-handle absolute -left-2 top-1/2 -translate-y-1/2 w-4 h-8 bg-primary rounded cursor-ew-resize border-2 border-background/80 shadow-sm z-50 hover:scale-110 transition-transform"
             onMouseDown={(e) => handleResize(e, 'left')}
           />
           <div
-            className="resize-handle absolute left-1/2 -bottom-2 -translate-x-1/2 w-8 h-4 bg-primary rounded cursor-ns-resize border-2 border-white shadow-sm z-50 hover:scale-110 transition-transform"
+            className="resize-handle absolute left-1/2 -bottom-2 -translate-x-1/2 w-8 h-4 bg-primary rounded cursor-ns-resize border-2 border-background/80 shadow-sm z-50 hover:scale-110 transition-transform"
             onMouseDown={(e) => handleResize(e, 'bottom')}
           />
           <div
-            className="resize-handle absolute left-1/2 -top-2 -translate-x-1/2 w-8 h-4 bg-primary rounded cursor-ns-resize border-2 border-white shadow-sm z-50 hover:scale-110 transition-transform"
+            className="resize-handle absolute left-1/2 -top-2 -translate-x-1/2 w-8 h-4 bg-primary rounded cursor-ns-resize border-2 border-background/80 shadow-sm z-50 hover:scale-110 transition-transform"
             onMouseDown={(e) => handleResize(e, 'top')}
           />
         </>
@@ -266,7 +266,7 @@ export function ComponentWrapper({ component, onMove }: ComponentWrapperProps) {
       )}
 
       {/* Drag Overlay - shows when hovering to indicate draggable area */}
-      {isHovered && !isSelected && !isDragging && (
+      {isHovered && !isSelected && !isDragging && !isBackground && (
         <div className="absolute inset-0 bg-primary/5 pointer-events-none rounded-sm" />
       )}
 

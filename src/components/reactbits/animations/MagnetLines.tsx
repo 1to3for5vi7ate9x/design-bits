@@ -99,4 +99,3 @@ const MagnetLines: React.FC<MagnetLinesProps> = ({
 };
 
 export default MagnetLines;
-export { MagnetLines };

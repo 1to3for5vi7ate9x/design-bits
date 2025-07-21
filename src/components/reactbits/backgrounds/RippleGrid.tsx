@@ -312,4 +312,3 @@ void main() {
 };
 
 export default RippleGrid;
-export { RippleGrid };

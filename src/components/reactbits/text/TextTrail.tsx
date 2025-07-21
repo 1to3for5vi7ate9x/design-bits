@@ -348,5 +348,3 @@ const TextTrail: React.FC<TextTrailProps> = ({
 };
 
 export default TextTrail;
-
-export { TextTrail };

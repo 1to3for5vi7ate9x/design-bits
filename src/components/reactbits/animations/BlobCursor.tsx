@@ -141,5 +141,3 @@ export default function BlobCursor({
     </div>
   );
 }
-
-export { BlobCursor };

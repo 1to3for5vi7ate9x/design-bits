@@ -33,10 +33,10 @@ export function Canvas() {
 
   // Check if component is a background type
   const backgroundTypes = [
-    'aurora', 'waves', 'grid', 'particles', 'dot-grid', 'balatro', 'ballpit',
+    'aurora', 'waves', 'particles', 'dot-grid', 'balatro', 'ballpit',
     'beams', 'dark-veil', 'dither', 'grid-distortion', 'grid-motion', 'hyperspeed',
     'iridescence', 'letter-glitch', 'lightning', 'liquid-chrome', 'orb',
-    'ripple-grid', 'silk', 'squares', 'threads'
+    'ripple-grid', 'silk', 'squares', 'threads', 'galaxy'
   ];
   const isBackgroundComponent = (type: string) => {
     return backgroundTypes.includes(type);

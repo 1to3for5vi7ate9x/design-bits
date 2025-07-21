@@ -179,8 +179,10 @@ export function PropertiesPanel() {
                       type="text"
                       value={selectedComponent.props[config.key] || config.defaultValue}
                       onChange={(e) => {
-                        // Special handling for texts array in rolling-text
-                        if (config.key === 'texts' && selectedComponent.type === 'rolling-text') {
+                        // Special handling for array properties
+                        if ((config.key === 'texts' && selectedComponent.type === 'rolling-text') ||
+                            (config.key === 'text' && selectedComponent.type === 'text-type') ||
+                            (config.key === 'words' && selectedComponent.type === 'rotating-text')) {
                           const textsArray = e.target.value.split(',').map(t => t.trim());
                           handlePropChange(config.key, textsArray);
                         } else {
@@ -216,20 +218,54 @@ export function PropertiesPanel() {
                   )}
                   
                   {config.type === 'color' && (
-                    <div className="flex gap-2">
-                      <input
-                        type="color"
-                        value={selectedComponent.props[config.key] || config.defaultValue}
-                        onChange={(e) => handlePropChange(config.key, e.target.value)}
-                        className="w-12 h-8 border border-border rounded cursor-pointer"
-                      />
-                      <input
-                        type="text"
-                        value={selectedComponent.props[config.key] || config.defaultValue}
-                        onChange={(e) => handlePropChange(config.key, e.target.value)}
-                        className="flex-1 px-2 py-1 border border-border rounded text-sm"
-                      />
-                    </div>
+                    <>
+                      {/* Handle color arrays */}
+                      {Array.isArray(config.defaultValue) ? (
+                        <div className="space-y-2">
+                          {(selectedComponent.props[config.key] || config.defaultValue).map((color: string, index: number) => (
+                            <div key={index} className="flex gap-2 items-center">
+                              <span className="text-xs text-text-muted w-12">{index + 1}:</span>
+                              <input
+                                type="color"
+                                value={color}
+                                onChange={(e) => {
+                                  const colors = [...(selectedComponent.props[config.key] || config.defaultValue)];
+                                  colors[index] = e.target.value;
+                                  handlePropChange(config.key, colors);
+                                }}
+                                className="w-12 h-8 border border-border rounded cursor-pointer"
+                              />
+                              <input
+                                type="text"
+                                value={color}
+                                onChange={(e) => {
+                                  const colors = [...(selectedComponent.props[config.key] || config.defaultValue)];
+                                  colors[index] = e.target.value;
+                                  handlePropChange(config.key, colors);
+                                }}
+                                className="flex-1 px-2 py-1 border border-border rounded text-sm"
+                              />
+                            </div>
+                          ))}
+                        </div>
+                      ) : (
+                        /* Handle single colors */
+                        <div className="flex gap-2">
+                          <input
+                            type="color"
+                            value={selectedComponent.props[config.key] || config.defaultValue}
+                            onChange={(e) => handlePropChange(config.key, e.target.value)}
+                            className="w-12 h-8 border border-border rounded cursor-pointer"
+                          />
+                          <input
+                            type="text"
+                            value={selectedComponent.props[config.key] || config.defaultValue}
+                            onChange={(e) => handlePropChange(config.key, e.target.value)}
+                            className="flex-1 px-2 py-1 border border-border rounded text-sm"
+                          />
+                        </div>
+                      )}
+                    </>
                   )}
                   
                   {config.type === 'select' && config.options && (

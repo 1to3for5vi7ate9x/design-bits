@@ -166,4 +166,3 @@ const ClickSpark: React.FC<ClickSparkProps> = ({
 };
 
 export default ClickSpark;
-export { ClickSpark };

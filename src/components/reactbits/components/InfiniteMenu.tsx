@@ -1367,4 +1367,3 @@ const InfiniteMenu: FC<InfiniteMenuProps> = ({ items = [] }) => {
 };
 
 export default InfiniteMenu;
-export { InfiniteMenu };

@@ -200,4 +200,3 @@ const AnimatedList: React.FC<AnimatedListProps> = ({
 };
 
 export default AnimatedList;
-export { AnimatedList };

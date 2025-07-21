@@ -211,5 +211,3 @@ export default function Aurora(props: AuroraProps) {
 
   return <div ref={ctnDom} className="w-full h-full" />;
 }
-
-export { Aurora };

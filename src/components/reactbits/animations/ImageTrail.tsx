@@ -1259,5 +1259,3 @@ export default function ImageTrail({
     </div>
   );
 }
-
-export { ImageTrail };

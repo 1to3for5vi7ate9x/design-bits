@@ -333,5 +333,3 @@ export default function Dither({
     </Canvas>
   );
 }
-
-export { Dither };

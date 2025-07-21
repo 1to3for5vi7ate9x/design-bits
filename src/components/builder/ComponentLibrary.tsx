@@ -5,6 +5,8 @@ import { componentDefinitions } from '@/lib/components/definitions';
 import { cn } from '@/lib/utils/cn';
 import { Search, Sparkles, Type, LayoutGrid, Zap } from 'lucide-react';
 import { useDraggable } from '@dnd-kit/core';
+import { useBuilderStore } from '@/store/builder';
+import { getDefaultSize } from '@/lib/components/definitions';
 
 const categoryIcons = {
   backgrounds: Sparkles,
@@ -21,14 +23,33 @@ function DraggableComponent({ definition }: { definition: typeof componentDefini
       isNew: true,
     },
   });
+  
+  const { addComponent } = useBuilderStore();
 
   const Icon = categoryIcons[definition.category];
+  
+  const handleDoubleClick = () => {
+    // Add component to canvas at center position
+    const canvasElement = document.querySelector('[data-canvas]') || document.querySelector('.flex-1.bg-canvas');
+    const canvasRect = canvasElement?.getBoundingClientRect();
+    
+    const centerX = canvasRect ? canvasRect.width / 2 - 100 : 400;
+    const centerY = canvasRect ? canvasRect.height / 2 - 100 : 300;
+    
+    addComponent({
+      type: definition.type,
+      position: { x: centerX, y: centerY },
+      size: getDefaultSize(definition.type),
+      props: definition.defaultProps,
+    });
+  };
 
   return (
     <div
       ref={setNodeRef}
       {...listeners}
       {...attributes}
+      onDoubleClick={handleDoubleClick}
       className={cn(
         'p-3 bg-surface rounded-lg border border-border cursor-move transition-all',
         'hover:border-primary hover:shadow-sm',

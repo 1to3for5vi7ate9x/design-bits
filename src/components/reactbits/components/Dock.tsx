@@ -147,7 +147,7 @@ function DockIcon({ children, className = "" }: DockIconProps) {
   );
 }
 
-function Dock({
+export default function Dock({
   items,
   className = "",
   spring = { mass: 0.1, stiffness: 150, damping: 12 },
@@ -205,6 +205,3 @@ function Dock({
     </motion.div>
   );
 }
-
-export default Dock;
-export { Dock };

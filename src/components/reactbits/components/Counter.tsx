@@ -83,7 +83,7 @@ interface CounterProps {
   bottomGradientStyle?: React.CSSProperties;
 }
 
-function Counter({
+export default function Counter({
   value,
   fontSize = 100,
   padding = 0,
@@ -172,6 +172,3 @@ function Counter({
     </div>
   );
 }
-
-export default Counter;
-export { Counter };

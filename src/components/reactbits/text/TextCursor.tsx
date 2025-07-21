@@ -168,5 +168,3 @@ const TextCursor: React.FC<TextCursorProps> = ({
 };
 
 export default TextCursor;
-
-export { TextCursor };

@@ -295,4 +295,3 @@ const LetterGlitch = ({
 };
 
 export default LetterGlitch;
-export { LetterGlitch };

@@ -76,4 +76,3 @@ const GlassIcons: React.FC<GlassIconsProps> = ({ items, className }) => {
 };
 
 export default GlassIcons;
-export { GlassIcons };

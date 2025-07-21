@@ -1,104 +1,152 @@
-'use client';
-
-import React, { useState, useRef, useEffect } from 'react';
-import { cn } from '@/lib/utils/cn';
-
-interface Card {
-  id: string;
-  title: string;
-  content: string;
-  image?: string;
-}
+import { useEffect } from "react";
+import { gsap } from "gsap";
 
 interface BounceCardsProps {
-  cards?: Card[];
   className?: string;
-  cardClassName?: string;
-  bounceIntensity?: number;
-  perspective?: number;
+  images?: string[];
+  containerWidth?: number;
+  containerHeight?: number;
+  animationDelay?: number;
+  animationStagger?: number;
+  easeType?: string;
+  transformStyles?: string[];
+  enableHover?: boolean;
 }
 
-export function BounceCards({
-  cards = [
-    { id: '1', title: 'Card 1', content: 'This is the first card' },
-    { id: '2', title: 'Card 2', content: 'This is the second card' },
-    { id: '3', title: 'Card 3', content: 'This is the third card' },
+export default function BounceCards({
+  className = "",
+  images = [],
+  containerWidth = 400,
+  containerHeight = 400,
+  animationDelay = 0.5,
+  animationStagger = 0.06,
+  easeType = "elastic.out(1, 0.8)",
+  transformStyles = [
+    "rotate(10deg) translate(-170px)",
+    "rotate(5deg) translate(-85px)",
+    "rotate(-3deg)",
+    "rotate(-10deg) translate(85px)",
+    "rotate(2deg) translate(170px)",
   ],
-  className,
-  cardClassName,
-  bounceIntensity = 15,
-  perspective = 1000,
+  enableHover = false,
 }: BounceCardsProps) {
-  const containerRef = useRef<HTMLDivElement>(null);
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
-  const [isHovering, setIsHovering] = useState<string | null>(null);
-
   useEffect(() => {
-    const handleMouseMove = (e: MouseEvent) => {
-      if (!containerRef.current) return;
-      
-      const rect = containerRef.current.getBoundingClientRect();
-      const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
-      const y = ((e.clientY - rect.top) / rect.height) * 2 - 1;
-      
-      setMousePosition({ x, y });
-    };
+    gsap.fromTo(
+      ".card",
+      { scale: 0 },
+      {
+        scale: 1,
+        stagger: animationStagger,
+        ease: easeType,
+        delay: animationDelay,
+      }
+    );
+  }, [animationDelay, animationStagger, easeType]);
 
-    const container = containerRef.current;
-    if (container) {
-      container.addEventListener('mousemove', handleMouseMove);
-      return () => container.removeEventListener('mousemove', handleMouseMove);
+  const getNoRotationTransform = (transformStr: string): string => {
+    const hasRotate = /rotate\([\s\S]*?\)/.test(transformStr);
+    if (hasRotate) {
+      return transformStr.replace(/rotate\([\s\S]*?\)/, "rotate(0deg)");
+    } else if (transformStr === "none") {
+      return "rotate(0deg)";
+    } else {
+      return `${transformStr} rotate(0deg)`;
     }
-  }, []);
+  };
 
-  const getCardTransform = (index: number) => {
-    if (!isHovering) {
-      const rotateX = mousePosition.y * bounceIntensity;
-      const rotateY = -mousePosition.x * bounceIntensity;
-      const translateZ = Math.abs(mousePosition.x * mousePosition.y) * 50;
-      
-      return `perspective(${perspective}px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateZ(${translateZ}px)`;
+  const getPushedTransform = (
+    baseTransform: string,
+    offsetX: number
+  ): string => {
+    const translateRegex = /translate\(([-0-9.]+)px\)/;
+    const match = baseTransform.match(translateRegex);
+    if (match) {
+      const currentX = parseFloat(match[1]);
+      const newX = currentX + offsetX;
+      return baseTransform.replace(translateRegex, `translate(${newX}px)`);
+    } else {
+      return baseTransform === "none"
+        ? `translate(${offsetX}px)`
+        : `${baseTransform} translate(${offsetX}px)`;
     }
-    
-    return '';
+  };
+
+  const pushSiblings = (hoveredIdx: number) => {
+    if (!enableHover) return;
+
+    images.forEach((_, i) => {
+      const selector = `.card-${i}`;
+      gsap.killTweensOf(selector);
+
+      const baseTransform = transformStyles[i] || "none";
+
+      if (i === hoveredIdx) {
+        const noRotation = getNoRotationTransform(baseTransform);
+        gsap.to(selector, {
+          transform: noRotation,
+          duration: 0.4,
+          ease: "back.out(1.4)",
+          overwrite: "auto",
+        });
+      } else {
+        const offsetX = i < hoveredIdx ? -160 : 160;
+        const pushedTransform = getPushedTransform(baseTransform, offsetX);
+
+        const distance = Math.abs(hoveredIdx - i);
+        const delay = distance * 0.05;
+
+        gsap.to(selector, {
+          transform: pushedTransform,
+          duration: 0.4,
+          ease: "back.out(1.4)",
+          delay,
+          overwrite: "auto",
+        });
+      }
+    });
+  };
+
+  const resetSiblings = () => {
+    if (!enableHover) return;
+
+    images.forEach((_, i) => {
+      const selector = `.card-${i}`;
+      gsap.killTweensOf(selector);
+
+      const baseTransform = transformStyles[i] || "none";
+      gsap.to(selector, {
+        transform: baseTransform,
+        duration: 0.4,
+        ease: "back.out(1.4)",
+        overwrite: "auto",
+      });
+    });
   };
 
   return (
     <div
-      ref={containerRef}
-      className={cn(
-        "relative grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 p-8",
-        className
-      )}
+      className={`relative flex items-center justify-center ${className}`}
+      style={{
+        width: containerWidth,
+        height: containerHeight,
+      }}
     >
-      {cards.map((card, index) => (
+      {images.map((src, idx) => (
         <div
-          key={card.id}
-          className={cn(
-            "relative bg-white dark:bg-gray-800 rounded-lg shadow-lg p-6 transition-all duration-300 ease-out cursor-pointer hover:shadow-xl",
-            "transform-gpu",
-            cardClassName
-          )}
+          key={idx}
+          className={`card card-${idx} absolute w-[200px] aspect-square border-8 border-white rounded-[30px] overflow-hidden`}
           style={{
-            transform: getCardTransform(index),
-            transition: 'transform 0.3s ease-out',
+            boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
+            transform: transformStyles[idx] || "none",
           }}
-          onMouseEnter={() => setIsHovering(card.id)}
-          onMouseLeave={() => setIsHovering(null)}
+          onMouseEnter={() => pushSiblings(idx)}
+          onMouseLeave={resetSiblings}
         >
-          {card.image && (
-            <img
-              src={card.image}
-              alt={card.title}
-              className="w-full h-48 object-cover rounded-lg mb-4"
-            />
-          )}
-          <h3 className="text-xl font-bold mb-2 text-gray-900 dark:text-gray-100">
-            {card.title}
-          </h3>
-          <p className="text-gray-600 dark:text-gray-400">
-            {card.content}
-          </p>
+          <img
+            className="w-full h-full object-cover"
+            src={src}
+            alt={`card-${idx}`}
+          />
         </div>
       ))}
     </div>

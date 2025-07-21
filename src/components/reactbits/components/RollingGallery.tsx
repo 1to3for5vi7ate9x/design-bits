@@ -173,4 +173,3 @@ const RollingGallery: React.FC<RollingGalleryProps> = ({
 };
 
 export default RollingGallery;
-export { RollingGallery };

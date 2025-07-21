@@ -139,5 +139,3 @@ export default function Stack({
     </div>
   );
 }
-
-export { Stack };

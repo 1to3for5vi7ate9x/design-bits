@@ -119,7 +119,6 @@ const MenuItem: React.FC<MenuItemProps> = ({ link, text, image }) => {
 };
 
 export default FlowingMenu;
-export { FlowingMenu };
 
 // Note: this is also needed
 // /** @type {import('tailwindcss').Config} */

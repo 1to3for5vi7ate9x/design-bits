@@ -270,4 +270,3 @@ const Ribbons: React.FC<RibbonsProps> = ({
 };
 
 export default Ribbons;
-export { Ribbons };

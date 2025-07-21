@@ -586,4 +586,3 @@ const ModelViewer: FC<ViewerProps> = ({
 };
 
 export default ModelViewer;
-export { ModelViewer };

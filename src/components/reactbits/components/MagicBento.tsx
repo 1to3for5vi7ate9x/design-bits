@@ -900,4 +900,3 @@ const MagicBento: React.FC<BentoProps> = ({
 };
 
 export default MagicBento;
-export { MagicBento };

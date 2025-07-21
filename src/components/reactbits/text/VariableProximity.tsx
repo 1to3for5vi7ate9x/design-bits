@@ -198,5 +198,3 @@ const VariableProximity = forwardRef<HTMLSpanElement, VariableProximityProps>((p
 
 VariableProximity.displayName = "VariableProximity";
 export default VariableProximity;
-
-export { VariableProximity };

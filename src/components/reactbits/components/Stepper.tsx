@@ -29,7 +29,7 @@ interface StepperProps extends HTMLAttributes<HTMLDivElement> {
   }) => ReactNode;
 }
 
-function Stepper({
+export default function Stepper({
   children,
   initialStep = 1,
   onStepChange = () => {},
@@ -371,6 +371,3 @@ function CheckIcon(props: CheckIconProps) {
     </svg>
   );
 }
-
-export default Stepper;
-export { Stepper, Step };

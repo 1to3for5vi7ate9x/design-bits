@@ -390,5 +390,3 @@ function Typography() {
     </Text>
   );
 }
-
-export { FluidGlass };
